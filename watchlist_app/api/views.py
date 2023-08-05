@@ -25,18 +25,10 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     
-class StreamPlatformVS(viewsets.ViewSet):
+class StreamPlatformVS(viewsets.ReadOnlyModelViewSet):
     
-    def list(self, request):
-        queryset = StreamPlatform.objects.all()
-        serializer = StreamPlatformSerializer(queryset, many=True, context={'request': request})
-        return Response(serializer.data)
-    
-    def retrieve(self, request, pk=None):
-        queryset = StreamPlatform.objects.all()
-        watchlist = get_object_or_404(queryset, pk=pk)
-        serializer = StreamPlatformSerializer(watchlist, context={'request': request})
-        return Response(serializer.data)
+    queryset = StreamPlatform.objects.all()
+    serializer_class = StreamPlatformSerializer
 
 class StreamPlatformAV(APIView):
     
