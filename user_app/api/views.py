@@ -27,7 +27,10 @@ def registration_view(request):
             data['response'] = "Registration Successful!"
             data['username'] = account.username
             data['email'] = account.email
-            data['token'] = Token.objects.get(user=account).key
+            
+            # token = Token.objects.get(user=account).key
+            token, created = Token.objects.get_or_create(user=account)
+            data['token'] = token.key
             
             # refresh = RefreshToken.for_user(account)
             # data['token'] = {
@@ -38,4 +41,4 @@ def registration_view(request):
         else:
             data = serializer.errors
             
-        return Response(data)
+        return Response(data, status=status.HTTP_201_CREATED)
